@@ -116,7 +116,7 @@
 }
 
 .result img {
-  width: 40px;
+  width: 30px;
   border-radius: 50%;
 }
 
@@ -129,7 +129,7 @@
 .result-data p {
   font-size: 17px;
   line-height: 30px;
-  font-weight: 400;
+  font-weight: 200;
 }
 .loader {
   width: 100%;

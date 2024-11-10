@@ -1,26 +1,40 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./SideBar.css";
 import { assets } from "../../assets/assets";
+import { Context } from "../../Context/Context";
 
 function SlidBar() {
   const [extended, setExtended] = useState(false); //to show the extended side bar
+  const { onSent, prePrompts, setRecentPrompts } = useContext(Context);
 
   return (
     <div className="slidebar">
       <div className="top">
-        <img onClick={() => setExtended(pre=>!pre)} src={assets.menu_icon} className="menu" alt="" />
+        <img
+          onClick={() => setExtended((pre) => !pre)}
+          src={assets.menu_icon}
+          className="menu"
+          alt=""
+        />
         <div className="new-chat">
           <img src={assets.plus_icon} alt="" />
           {extended ? <p>New Chat</p> : null}
         </div>
-        
-        {extended ? <div className="recent">
-          <p className="recentTitle"> Recent</p>
-          <div className="recent-entry">
-            <img src={assets.message_icon} alt="" />
-            <p>What is ...</p>
+
+        {extended ? (
+          <div className="recent">
+            <p className="recentTitle"> Recent</p>
+            {prePrompts.map((item, index) => {
+              return (
+                <div className="recent-entry">
+                  <img src={assets.message_icon} alt="" />
+                  {/* //slice to show only 15 characters in sliodebar recent promt */}
+                  <p>{item.slice(0, 15)}</p> 
+                </div>
+              );
+            })}
           </div>
-        </div> : null}
+        ) : null}
       </div>
       <div className="bottom">
         <div className="bottom_item recent-entry">
@@ -30,7 +44,7 @@ function SlidBar() {
 
         <div className="bottom_item recent-entry">
           <img src={assets.history_icon} alt="" />
-     {extended?      <p>Activities</p>: null}
+          {extended ? <p>Activities</p> : null}
         </div>
 
         <div className="bottom_item recent-entry">

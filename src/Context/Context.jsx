@@ -1,79 +1,69 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from "react"; //import { createContext, useState }  hooks from "react";
 import runChat from "../config/genini";
 
 export const Context = createContext();
 
-const ContectProvider = (props) =>{
-        const [input, setInput] =useState("");
-        const [resentPrompt, setRecentPrompt] =useState("");
-        const [prePrompts, setPrePrompts] =useState([]);
-        const [showResult, setShowResult] =useState(false);
-        const [loading, setLoading] =useState(false);
-        const [resultData, setResultData] =useState("");
+const ContextProvider = (props) => {
+  const [input, setInput] = useState(""); // this use to get the user input from promt field
+  const [resentPrompt, setRecentPrompt] = useState(""); // this for sendt to recent section when user submit the prompt
+  const [prePrompts, setPrePrompts] = useState([]); // this is array to store the previous prompts
+  const [showResult, setShowResult] = useState(false); // if this is true this hide the all the cars in the main content and show prmpted resut there
+  const [loading, setLoading] = useState(false); // when this tru the loading animation apere.. this will false when prompted resut come
+  const [resultData, setResultData] = useState(""); // this is to show  result
+ 
+ 
+  const delaypara = (index, nextWord) => { 
+    setTimeout(function () {
+      setResultData((prev) => prev + nextWord);
+    }, 75 * index);
+  };
 
+  const onSent = async (prompt) => {
+    setResultData("");
+    setLoading(true);
+    setShowResult(true);
+    setRecentPrompt(input);
+    setPrePrompts((prev) => [...prev, input]); // this is to store the previous prompts
 
-        const delaypara = (index,nextWord) =>{
-            setTimeout(function(){
-                setResultData(prev=>prev+nextWord)
-            },75*index)
-        }
+    const response = await runChat(input);
 
+    let responseArray = response.split("**");
+    let newResponse="";//we use "" to prevent show the first word in result as undefined
+    for (let i = 0; i < responseArray.length; i++) { //emove ** and convert it ro blod words
+      if (i === 0 || i % 2 !== 1) { //even number
+        newResponse += responseArray[i];
+      } else {
+        newResponse += "<b>" + responseArray[i] + "</b>";
+      }
+    }
+    let newResponse2 = newResponse.split("*").join("</br>");
 
-        const onSent = async (prompt) =>{
-
-            setResultData("");
-            setLoading(true);
-            setShowResult(true);
-            setRecentPrompt(input)
-            
-
-            const response = await runChat(input);
-
-            let responseArray = response.split("**");
-            let newResponse;
-            for(let i=0; i<responseArray.length; i++){
-                if (i===0 || i%2 !== 1){
-                    newResponse += responseArray[i];
-                }
-                else{
-                    newResponse += "<b>"+responseArray[i]+"</b>";
-                }
-            }
-            let newResponse2 = newResponse.split("*").join("</br>")
-
-            let newResponseArray = newResponse2.split(" ");
-            for(let i=0; i<newResponseArray.length; i++){
-                const nextWord = newResponseArray[i];
-                delaypara(i,nextWord+ " ")
-            }
-
-            setLoading(false);
-            setInput("");
-
-        }
-
-       
-
-    const contextValue ={
-            prePrompts,
-            setPrePrompts,
-            onSent,
-            setRecentPrompt,
-            resentPrompt,
-            showResult,
-            loading,
-            resultData,
-            input,
-            setInput,
-            
-
-
+    let newResponseArray = newResponse2.split(" ");
+    for (let i = 0; i < newResponseArray.length; i++) {
+      const nextWord = newResponseArray[i];
+      delaypara(i, nextWord + " ");
     }
 
-    return(
-        <Context.Provider value={contextValue}>
-            {props.children}
-        </Context.Provider>
-    )
-}
-export default ContectProvider;
+    setLoading(false);
+    setInput("");
+  };
+
+  const contextValue = {
+    // these can be use anywhere of our project
+    prePrompts,
+    setPrePrompts,
+    onSent,
+    setRecentPrompt,
+    resentPrompt,
+    showResult,
+    loading,
+    resultData,
+    input,
+    setInput,
+  };
+
+  return (
+    <Context.Provider value={contextValue}>{props.children}</Context.Provider>
+  );
+};
+export default ContextProvider;
