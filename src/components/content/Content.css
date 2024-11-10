@@ -136,6 +136,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-bottom: 20px;
 }
 .loader hr {
   border-radius: 4px;
@@ -158,5 +159,21 @@
   }
   100% {
     background-position: 700px 0px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-bottom input {
+    flex: none;
+    width: 150px;
+  }
+  .main-bottom img {
+    width: 20px;
+  }
+  .search-box {
+    padding: 5px 10px;
+  }
+  .search-box div {
+    gap: 5px;
   }
 }

@@ -34,7 +34,7 @@
   border-radius: 5px;
   display: block;
   color: rgb(12, 13, 13);
-  overflow: hidden;
+  animation: fadeIn 1.5s;
 }
 .slidebar .recent:hover {
   background-color: rgb(205, 214, 221);
@@ -69,4 +69,12 @@
 .slidebar .bottom .bottom_item:hover {
   background-color: rgb(205, 214, 221);
   font-size: 15px;
+}
+
+
+@media (max-width: 600px) {
+  .slidebar {
+    display: none;
+  }
+
 }

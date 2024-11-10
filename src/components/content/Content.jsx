@@ -101,11 +101,11 @@ function Content() {
             <div>
               <img src={assets.gallery_icon} alt="gallary image" />
               <img src={assets.mic_icon} alt="mic image" />
-              <img
+             {input?  <img
                 onClick={() => onSent()}
                 src={assets.send_icon}
                 alt=" enter image"
-              />
+              />: null}
             </div>
           </div>
           <p className="bottom-info">Created by Pasindu Dilshan...</p>
