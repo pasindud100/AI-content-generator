@@ -25,7 +25,7 @@ function Content() {
           <>
             <div className="greet">
               {/* <p><span>Hello, Dev.</span></p>*/}
-              <h2>Hi client...</h2>
+              <h2><span>Hi user...</span></h2>
               <p>How can i help you today with my AI knowladge?</p>
             </div>
             <div className="cards">
@@ -87,16 +87,16 @@ function Content() {
           <div className="search">
             <input
               type="text"
-              placeholder="Plesease enter"
+              placeholder="Please prompt here..."
               onChange={(e) => {
                 setInput(e.target.value);
               }}
               value={input}
             />
             <div>
-              <img src={assets.gallery_icon} alt="" />
-              <img src={assets.mic_icon} alt="" />
-              <img onClick={() => onSent()} src={assets.send_icon} alt="" />
+              <img src={assets.gallery_icon} alt="gallary image" />
+              <img src={assets.mic_icon} alt="mic image" />
+              <img onClick={() => onSent()} src={assets.send_icon} alt=" enter image" />
             </div>
           </div>
           <p className="bottom-info">Created by Pasindu Dilshan...</p>
